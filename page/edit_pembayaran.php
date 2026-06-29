@@ -80,151 +80,118 @@ if(isset($_POST['tambah'])){
 
 }
 
-?>
+                    ?>
 
-<section class="content">
+                <section class="content">
+                    <div class="container-fluid">
+                <div class="card">
+                    <div class="card-body">
+                    <div class="card-body p-2">
+                    <form method="POST" action="">
+                    <div class="form-group">
 
-<div class="container-fluid">
+                    <label>Id Bayar</label>
+                    <input type="text"
+                    class="form-control"
+                    value="<?= $edit['Id_bayar']; ?>"
+                    disabled>
 
-<div class="card">
+                    </div>
+                    <div class="form-group">
+                    <label>Id Reservasi</label>
+                    <select name="Id_reservasi"
+                    class="form-control">
+                    <?php
+                    $query=mysqli_query($koneksi,"
+                    SELECT reservasi.Id_reservasi,
+                    tamu.Nama_tamu
+                    FROM reservasi
+                    JOIN tamu
+                    ON reservasi.Id_tamu=tamu.Id_tamu");
 
-<div class="card-body">
+                    while($data=mysqli_fetch_array($query)){
 
-<div class="card-body p-2">
+                    $selected = ($data['Id_reservasi']==$edit['Id_reservasi']) ? 'selected' : '';
 
-<form method="POST" action="">
+                    ?>
 
-<div class="form-group">
+                    <option
+                    value="<?= $data['Id_reservasi']; ?>"
+                    <?= $selected; ?>>
 
-<label>Id Bayar</label>
+                    <?= $data['Id_reservasi']; ?> -
+                    <?= $data['Nama_tamu']; ?>
 
-<input type="text"
-class="form-control"
-value="<?= $edit['Id_bayar']; ?>"
-disabled>
+                    </option>
 
-</div>
+                    <?php } ?>
 
-<div class="form-group">
+                    </select>
 
-<label>Id Reservasi</label>
+                    </div>
 
-<select name="Id_reservasi"
-class="form-control">
+                    <div class="form-group">
 
-<?php
+                    <label>Tanggal Bayar</label>
 
-$query=mysqli_query($koneksi,"
-SELECT reservasi.Id_reservasi,
-tamu.Nama_tamu
-FROM reservasi
-JOIN tamu
-ON reservasi.Id_tamu=tamu.Id_tamu");
+                    <input
+                    type="date"
+                    name="Tanggal_bayar"
+                    value="<?= $edit['Tanggal_bayar']; ?>"
+                    class="form-control">
 
-while($data=mysqli_fetch_array($query)){
+                    </div>
 
-$selected = ($data['Id_reservasi']==$edit['Id_reservasi']) ? 'selected' : '';
+                    <div class="form-group">
+                    <label>Total Bayar</label>
+                    <input
+                    type="text"
+                    class="form-control"
+                    value="<?= "Rp".number_format($edit['Total_bayar'],0,',','.'); ?>"
+                    readonly>
+                    </div>
 
-?>
+                    <div class="form-group">
+                    <label>Metode Bayar</label>
+                    <select
+                    name="Metode_bayar"
+                    class="form-control">
+                    <option value="Cash"
+                    <?= ($edit['Metode_bayar']=="Cash") ? "selected" : ""; ?>>
+                    Cash
 
-<option
-value="<?= $data['Id_reservasi']; ?>"
-<?= $selected; ?>>
+                    </option>
+                    <option value="Transfer"
+                    <?= ($edit['Metode_bayar']=="Transfer") ? "selected" : ""; ?>>
+                    Transfer
 
-<?= $data['Id_reservasi']; ?> -
-<?= $data['Nama_tamu']; ?>
+                    </option>
+                    <option value="Debit"
+                    <?= ($edit['Metode_bayar']=="Debit") ? "selected" : ""; ?>>
+                    Debit
 
-</option>
+                    </option>
+                    </select>
+                    </div>
+                    <div class="card-footer">
+                    <input
+                    type="submit"
+                    name="tambah"
+                    class="btn btn-primary"
+                    value="Simpan">
 
-<?php } ?>
+                    <a
+                    href="index.php?page=pembayaran"
+                    class="btn btn-danger">
+                    Batal
 
-</select>
+                    </a>
 
-</div>
+                    </div>
 
-<div class="form-group">
-
-<label>Tanggal Bayar</label>
-
-<input
-type="date"
-name="Tanggal_bayar"
-value="<?= $edit['Tanggal_bayar']; ?>"
-class="form-control">
-
-</div>
-
-<div class="form-group">
-
-<label>Total Bayar</label>
-
-<input
-type="text"
-class="form-control"
-value="<?= "Rp".number_format($edit['Total_bayar'],0,',','.'); ?>"
-readonly>
-
-</div>
-
-<div class="form-group">
-
-<label>Metode Bayar</label>
-
-<select
-name="Metode_bayar"
-class="form-control">
-
-<option value="Cash"
-<?= ($edit['Metode_bayar']=="Cash") ? "selected" : ""; ?>>
-
-Cash
-
-</option>
-
-<option value="Transfer"
-<?= ($edit['Metode_bayar']=="Transfer") ? "selected" : ""; ?>>
-
-Transfer
-
-</option>
-
-<option value="Debit"
-<?= ($edit['Metode_bayar']=="Debit") ? "selected" : ""; ?>>
-
-Debit
-
-</option>
-
-</select>
-
-</div>
-
-<div class="card-footer">
-
-<input
-type="submit"
-name="tambah"
-class="btn btn-primary"
-value="Simpan">
-
-<a
-href="index.php?page=pembayaran"
-class="btn btn-danger">
-
-Batal
-
-</a>
-
-</div>
-
-</form>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
+                    </form>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </section>

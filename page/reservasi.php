@@ -14,16 +14,37 @@ include "config/koneksi.php"
 <?php
 if (isset($_GET['action'])) {
     if ($_GET['action'] == "hapus") {
+
         $Id = $_GET['Id'];
-        $query = mysqli_query($koneksi, "DELETE FROM reservasi WHERE Id_reservasi='$Id'");
+
+        // Ambil Id_kamar dari reservasi
+        $data = mysqli_fetch_array(mysqli_query($koneksi,
+        "SELECT Id_kamar FROM reservasi WHERE Id_reservasi='$Id'"));
+
+        // Ubah status kamar menjadi Cleaning
+        mysqli_query($koneksi,
+        "UPDATE kamar
+        SET Status_kamar='Cleaning'
+        WHERE Id_kamar='".$data['Id_kamar']."'");
+
+        // Hapus reservasi
+        $query = mysqli_query($koneksi,
+        "DELETE FROM reservasi
+        WHERE Id_reservasi='$Id'");
+
         if ($query) {
+
             echo '
             <div class="alert alert-warning alert-dismissible">
-                Berhasil Di Hapus</div>';
+                Berhasil Di Hapus
+            </div>';
+
             echo '<meta http-equiv="refresh" content="1;url=index.php?page=reservasi">';
+
         }
+
     }
-}
+}       
 ?>
 
 <div class="content">
@@ -58,7 +79,8 @@ if (isset($_GET['action'])) {
                                 <td><?= $result['Check_out']; ?></td>
                                 <td><?= $result['Status']; ?></td>
                                 <td>
-                                    <a href="index.php?page=reservasi&action=hapus&Id=<?= $result['Id_reservasi']; ?>" title ="">
+                                   <a href="index.php?page=reservasi&action=hapus&Id=<?= $result['Id_reservasi']; ?>"
+                                            onclick="return confirm('Yakin ingin menghapus reservasi ini?')">
                                             <span class=" badge badge-danger">Hapus</span></a>
                                     <a href="index.php?page=edit_reservasi&Id=<?= $result['Id_reservasi']; ?>" title="">
                                         <span class="badge badge-warning">Edit</span></a>

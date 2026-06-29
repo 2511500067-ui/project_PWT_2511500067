@@ -43,8 +43,10 @@ if (isset($_GET['action'])) {
                 <a href="index.php?page=tambah_pembayaran" class="btn btn-primary btn-sm">
                     Tambah Pembayaran
                 </a>
-
-                <table class="table table-striped">
+                <a href="index.php?page=laporan_pembayaran" class="btn btn-success btn-sm">
+                    Laporan Pembayaran
+                </a>
+                                <table class="table table-striped">
 
                     <thead>
 
@@ -65,98 +67,56 @@ if (isset($_GET['action'])) {
                     </thead>
 
                     <?php
-
                     $no = 0;
-
-                    $query = mysqli_query($koneksi, "
-
-                    SELECT
-
-                    pembayaran.*,
-
-                    tamu.Nama_tamu,
-
-                    kamar.Nomor_kamar
-
-                    FROM pembayaran
-
-                    JOIN reservasi
-                    ON pembayaran.Id_reservasi=reservasi.Id_reservasi
-
-                    JOIN tamu
-                    ON reservasi.Id_tamu=tamu.Id_tamu
-
-                    JOIN kamar
-                    ON reservasi.Id_kamar=kamar.Id_kamar
-
-                    ");
+                    $query = mysqli_query($koneksi,"
+                            SELECT
+                            pembayaran.*,
+                            tamu.Nama_tamu,
+                            kamar.Nomor_kamar
+                            FROM pembayaran
+                            JOIN reservasi
+                            ON pembayaran.Id_reservasi=reservasi.Id_reservasi
+                            JOIN tamu
+                            ON reservasi.Id_tamu=tamu.Id_tamu
+                            JOIN kamar
+                            ON reservasi.Id_kamar=kamar.Id_kamar
+                            ORDER BY pembayaran.Id_bayar DESC
+                            ");
 
                     while($result=mysqli_fetch_array($query)){
-
                     $no++;
-
                     ?>
-
                     <tbody>
-
                         <tr style="text-align:center;">
-
                             <td><?= $no; ?></td>
-
                             <td><?= $result['Id_bayar']; ?></td>
-
                             <td><?= $result['Id_reservasi']; ?></td>
-
                             <td><?= $result['Nama_tamu']; ?></td>
-
                             <td><?= $result['Nomor_kamar']; ?></td>
-
                             <td><?= $result['Tanggal_bayar']; ?></td>
-
                             <td><?= $result['Metode_bayar']; ?></td>
-
                             <td>
-
-                                <?= "Rp" . number_format($result['Total_bayar'],0,',','.'); ?>
-
+                                <?= "Rp " . number_format($result['Total_bayar'],0,',','.'); ?>
                             </td>
-
                             <td>
-
-                                <a href="index.php?page=pembayaran&action=hapus&Id=<?= $result['Id_bayar']; ?>">
-
+                                <a href="index.php?page=pembayaran&action=hapus&Id=<?= $result['Id_bayar']; ?>"
+                                        onclick="return confirm('Yakin ingin menghapus data pembayaran?')">
                                     <span class="badge badge-danger">
-
                                         Hapus
-
                                     </span>
-
                                 </a>
-
                                 <a href="index.php?page=edit_pembayaran&Id=<?= $result['Id_bayar']; ?>">
-
                                     <span class="badge badge-warning">
-
                                         Edit
-
                                     </span>
-
                                 </a>
-
                             </td>
-
                         </tr>
-
                     </tbody>
-
                     <?php } ?>
-
                 </table>
-
             </div>
 
         </div>
-
     </div>
-
 </div>

@@ -43,7 +43,12 @@ if (isset($_POST['tambah'])) {
         echo "Gagal insert ke tabel Reservasi: " . mysqli_error($koneksi);
         die;
     }
-    
+            mysqli_query($koneksi,"
+        UPDATE kamar
+        SET Status_kamar='Reserved'
+        WHERE Id_kamar='$Id_kamar'
+        ");
+
     if ($allSuccess) {
         echo '<div class="alert alert-info alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -89,7 +94,11 @@ if (isset($_POST['tambah'])) {
                         <select name="Id_kamar" class="form-control" required>
                         <option value="">-- Pilih Kamar --</option>
                            <?php
-                          $kamar = mysqli_query($koneksi, "SELECT * FROM kamar");
+                          $kamar = mysqli_query($koneksi,"
+                            SELECT *
+                            FROM kamar
+                            WHERE Status_kamar='Cleaning'
+                            ");
                          while($k = mysqli_fetch_array($kamar)){
                          ?>
                        <option value="<?= $k['Id_kamar']; ?>">

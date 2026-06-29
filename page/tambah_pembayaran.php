@@ -37,6 +37,23 @@ if(isset($_POST['tambah'])){
     $Tanggal_bayar = $_POST['Tanggal_bayar'];
     $Metode_bayar = $_POST['Metode_bayar'];
 
+        // Cek apakah reservasi sudah pernah dibayar
+    $cek = mysqli_query($koneksi,"
+    SELECT *
+    FROM pembayaran
+    WHERE Id_reservasi='$Id_reservasi'
+    ");
+
+    if(mysqli_num_rows($cek)>0){
+
+        echo '
+        <div class="alert alert-warning">
+            Reservasi sudah dibayar.
+        </div>';
+
+        $allSuccess = false;
+    }
+        if($allSuccess){
     //Ambil harga kamar berdasarkan reservasi
     $harga = mysqli_fetch_array(mysqli_query($koneksi,"
         SELECT tipe_kamar.Harga
@@ -68,7 +85,7 @@ if(isset($_POST['tambah'])){
     ");
 
     if($insert){
-        echo '
+     } echo '
         <div class="alert alert-info alert-dismissible">
             <button type="button" class="close" data-dismiss="alert">×</button>
             <h5><i class="icon fas fa-info"></i> Info</h5>
@@ -77,6 +94,8 @@ if(isset($_POST['tambah'])){
 
         echo '<meta http-equiv="refresh" content="1;url=index.php?page=pembayaran">';
     }else{
+
+    
 
         echo '
         <div class="alert alert-danger alert-dismissible">
@@ -116,9 +135,14 @@ SELECT
 reservasi.Id_reservasi,
 tamu.Nama_tamu
 FROM reservasi
-JOIN tamu ON reservasi.Id_tamu=tamu.Id_tamu
+JOIN tamu
+ON reservasi.Id_tamu=tamu.Id_tamu
+WHERE reservasi.Id_reservasi NOT IN
+(
+SELECT Id_reservasi
+FROM pembayaran
+)
 ");
-
 while($r=mysqli_fetch_array($reservasi)){
 
 ?>
@@ -136,7 +160,8 @@ while($r=mysqli_fetch_array($reservasi)){
 
 <div class="form-group">
 <label>Tanggal Bayar</label>
-<input type="date" name="Tanggal_bayar" class="form-control" required>
+<<input
+type="date"name="Tanggal_bayar"class="form-control"value="<?= date('Y-m-d'); ?>"required>
 </div>
 
 <div class="form-group">
