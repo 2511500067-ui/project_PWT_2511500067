@@ -13,7 +13,7 @@ include "config/koneksi.php"
 </div>
 
     <?php
-    $Id = $_GET['Id'];
+    $Id = $_GET['kd'];
     $edit = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM tamu WHERE Id_tamu='$Id'"));
 
     if(isset($_POST['tambah'])){

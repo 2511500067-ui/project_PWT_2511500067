@@ -52,7 +52,7 @@ if (isset($_GET['action'])) {
                             <tr style="text-align: center;">
                                 <td><?= $no; ?></td>
                                 <td><?= $result['Id_tipe']; ?></td>
-                                <td><?= $result['Nm_tipe']; ?></td>
+                                <td><?= $result['Nama_tipe']; ?></td>
                                 <td><?= $result['Harga']; ?></td>
                                 <td><?= $result['Kapasitas']; ?></td>
                                 <td>

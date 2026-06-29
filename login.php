@@ -1,6 +1,12 @@
 <?php
-include "config/koneksi.php";
+ob_start();
 session_start();
+require_once("config/koneksi.php");
+
+if (isset($_SESSION['Username'])) {
+    header("Location: index.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +29,7 @@ session_start();
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="index2.html"><b>Admin</b>LTE</a>
+            <a href="index2.html"><b>Reservasi </b>HOTEL</a>
         </div>
         <!-- /.login-logo -->
         <div class="card">
@@ -73,33 +79,31 @@ session_start();
 
 </html>
 <?php
-$Username = $_POST['Username'] ?? null;
-$Password = $_POST['Password'] ?? null;
+$Username = $_POST['Username'] ?? '';
+$Password = $_POST['Password'] ?? '';
 
-if ($Username == true) {
-    $userquary = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM users WHERE Username='$Username'"));
+if (isset($_POST['Login'])) {
+
+    $query = mysqli_query($koneksi,
+        "SELECT * FROM users WHERE Username='$Username'");
+
+    $userquary = mysqli_fetch_array($query);
 
     if ($userquary) {
 
         if ($Password == $userquary['Password']) {
-            $_SESSION['level'] = $userquary['Role'];
+
             $_SESSION['Username'] = $userquary['Username'];
 
-            if ($userquary['Role'] == 'admin') {
-                header("location:index.php");
-            } else if ($userquary['Role'] == 'guru' || $userquary['Role'] == 'siswa') {
+            header("Location: index.php");
+            exit;
 
-                if ($userquary['Password'] == '1234') {
-                    header("location: index.php?page=ganti_password");
-                } else {
-                    header("location:index.php");
-                }
-            }
+        } else {
+            echo "<script>alert('Password salah');</script>";
         }
+
+    } else {
+        echo "<script>alert('Username tidak ditemukan');</script>";
     }
-} else {
-    echo '<div class="alert alert-danger alert-dismissible">
-<button type="button" class="close" data-dismiss="alert" 
-aria-hiden="true">x</button> <h5><i class="icon fa fa-ban"
-></i> Alert!</h5> Login gagal </div>';
 }
+?>

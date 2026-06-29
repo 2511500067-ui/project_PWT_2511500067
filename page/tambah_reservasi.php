@@ -30,12 +30,14 @@ $_SESSION['KODE'] = $hasilkode;
 if (isset($_POST['tambah'])) {
 
     $Id_reservasi   = $_POST['Id_reservasi'];
+    $Id_tamu = $_POST['Id_tamu'];
+    $Id_kamar = $_POST['Id_kamar'];
     $Check_in     = $_POST['Check_in'];
     $Check_out = $_POST['Check_out'];
     $Status    = $_POST['Status'];
-
-    $insertreservasi = mysqli_query($koneksi, "INSERT INTO reservasi (Id_reservasi, Check_in, Check_out, Status)
-    VALUES ('$Id_reservasi', '$Check_in','$Check_out', '$Status')");
+    
+    $insertreservasi = mysqli_query($koneksi, "INSERT INTO reservasi (Id_reservasi, Id_tamu, Id_kamar, Check_in, Check_out, Status)
+    VALUES ('$Id_reservasi', '$Id_tamu', '$Id_kamar', '$Check_in','$Check_out', '$Status')");
 
     if (!$insertreservasi) {
         echo "Gagal insert ke tabel Reservasi: " . mysqli_error($koneksi);
@@ -67,6 +69,34 @@ if (isset($_POST['tambah'])) {
                     <div class="form-group">
                         <label>Id Reservasi</label>
                         <input type="text" name="Id_reservasi" value="<?= $hasilkode ?>" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                          <label>Nama Tamu</label>
+                        <select name="Id_tamu" class="form-control" required>
+                         <option value="">-- Pilih Tamu --</option>
+                        <?php
+                           $tamu = mysqli_query($koneksi, "SELECT * FROM tamu");
+                        while($t = mysqli_fetch_array($tamu)){
+                                ?>
+                          <option value="<?= $t['Id_tamu']; ?>">
+                       <?= $t['Nama_tamu']; ?>
+                            </option>
+                            <?php } ?>
+                         </select>
+                        </div>
+                        <div class="form-group">
+                         <label>Kamar</label>
+                        <select name="Id_kamar" class="form-control" required>
+                        <option value="">-- Pilih Kamar --</option>
+                           <?php
+                          $kamar = mysqli_query($koneksi, "SELECT * FROM kamar");
+                         while($k = mysqli_fetch_array($kamar)){
+                         ?>
+                       <option value="<?= $k['Id_kamar']; ?>">
+                       <?= $k['Id_kamar']; ?>
+                       </option>
+                       <?php } ?>
+                   </select>
                     </div>
                         <div class="form-group">
                             <label>Check In:</label>

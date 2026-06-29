@@ -21,7 +21,7 @@ if (isset($_GET['action'])) {
             echo '
             <div class="alert alert-warning alert-dismissible">
                 Berhasil Di Hapus</div>';
-            echo '<meta http-equiv="refresh" content="1;url=index.php?page=kelas">';
+            echo '<meta http-equiv="refresh" content="1;url=index.php?page=tamu">';
         }
     }
 }
@@ -53,13 +53,16 @@ if (isset($_GET['action'])) {
                             <tr style="text-align: center;">
                                 <td><?= $no; ?></td>
                                 <td><?= $result['Id_tamu']; ?></td>
-                                <td><?= $result['Nm_tamu']; ?></td>
+                                <td><?= $result['Nama_tamu']; ?></td>
                                 <td><?= $result['No_hp']; ?></td>
                                 <td><?= $result['Email']; ?></td>
-                                    <a href="index.php?page=tamu&action=hapus&kd=<?= $result['Id_tamu   ']; ?>" title ="">
-                                            <span class=" badge badge-danger">Hapus</span></a>
-                                    <a href="index.php?page=edit_tamu&kd=<?= $result['Id_tamu ']; ?>" title="">
-                                        <span class="badge badge-warning">Edit</span></a>
+                                <td>
+                                    <a href="index.php?page=tamu&action=hapus&kd=<?= $result['Id_tamu']; ?>">
+                                        <span class="badge badge-danger">Hapus</span>
+                                    </a>
+                                    <a href="index.php?page=edit_tamu&kd=<?= $result['Id_tamu']; ?>" title="">
+                                        <span class="badge badge-warning">Edit</span>
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>

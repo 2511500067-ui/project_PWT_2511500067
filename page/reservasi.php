@@ -56,9 +56,9 @@ if (isset($_GET['action'])) {
                                 <td><?= $result['Id_tamu']; ?></td>
                                 <td><?= $result['Check_in']; ?></td>
                                 <td><?= $result['Check_out']; ?></td>
-                                <td><?= $result['Statu']; ?></td>
+                                <td><?= $result['Status']; ?></td>
                                 <td>
-                                    <a href="index.php?page=reservasi&action=hapus&Id=<?= $result['Id_reservasi ']; ?>" title ="">
+                                    <a href="index.php?page=reservasi&action=hapus&Id=<?= $result['Id_reservasi']; ?>" title ="">
                                             <span class=" badge badge-danger">Hapus</span></a>
                                     <a href="index.php?page=edit_reservasi&Id=<?= $result['Id_reservasi']; ?>" title="">
                                         <span class="badge badge-warning">Edit</span></a>

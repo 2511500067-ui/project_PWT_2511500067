@@ -2,6 +2,10 @@
 ob_start();
 session_start();
 require_once("config/koneksi.php");
+if (!isset($_SESSION['Username'])) {
+    header("Location: login.php");
+    exit();
+}
 ?>
 
     <!DOCTYPE html>
@@ -86,7 +90,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <img src="dist/img/diva.jpeg" class="img-circle elevation-2" alt="User Image">
                         </div>
                         <div class="info">
-                            <a href="#" class="d-block">Yozalia Ilmandra</a>
+                            <a href="#" class="d-block">Yozalia Ilmandrra</a>
                         </div>
                     </div>
 
